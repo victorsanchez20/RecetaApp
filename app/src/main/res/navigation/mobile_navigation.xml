@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.appproject.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.example.appproject.ui.Recetas.RecetasFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_recetas" >
+        <action
+            android:id="@+id/action_nav_gallery_to_recetasAgregar"
+            app:destination="@id/recetasAgregar" />
+        <action
+            android:id="@+id/action_nav_gallery_to_recetasDetalle"
+            app:destination="@id/recetasDetalle" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.appproject.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/recetasAgregar"
+        android:name="com.example.appproject.ui.Recetas.RecetasAgregar"
+        android:label="fragment_recetas_agregar"
+        tools:layout="@layout/fragment_recetas_agregar" />
+    <fragment
+        android:id="@+id/recetasDetalle"
+        android:name="com.example.appproject.ui.Recetas.RecetasDetalle"
+        android:label="fragment_recetas_detalle"
+        tools:layout="@layout/fragment_recetas_detalle" />
+</navigation>
