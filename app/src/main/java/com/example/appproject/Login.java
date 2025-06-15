@@ -22,7 +22,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String servidor = "http://10.0.2.2/receta002/";
+    public static final String servidor = "http://10.0.2.2/receta003/";
 
     EditText usu, pass;
     Button ing;

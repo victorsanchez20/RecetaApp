@@ -11,9 +11,12 @@ public class Recetas {
     double precio;
     String fecha_publicacion;
 
+    boolean aprendido;
+
     // Constructor
     public Recetas(String idreceta, String dificultad, String categoria, String nombre,
-                   String imagen, String video /*nuevo*/,double precio, String tiempo_preparacion, String fecha_publicacion) {
+                   String imagen, String video /*nuevo*/,double precio, String tiempo_preparacion,
+                   String fecha_publicacion, boolean aprendido) {
         this.idreceta = idreceta;
         this.nombre = nombre;
         this.imagen = imagen;
@@ -23,6 +26,7 @@ public class Recetas {
         this.categoria = categoria;
         this.precio = precio;
         this.fecha_publicacion = fecha_publicacion;
+        this.aprendido = aprendido;
     }
 
     // Getters y setters
@@ -74,11 +78,17 @@ public class Recetas {
     public void setFecha_publicacion(String fecha_publicacion) {
         this.fecha_publicacion = fecha_publicacion;
     }
-
     public String getVideo() {
         return video;
     }
     public void setVideo(String video) {
         this.video = video;
+    }
+
+    public boolean getAprendido() {
+        return aprendido;
+    }
+    public void setAprendido(boolean aprendida) {
+        this.aprendido = aprendida;
     }
 }

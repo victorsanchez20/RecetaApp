@@ -85,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
         });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+
+        /*---------------------------------------------------------------*/
+        ConsultaRol(id_usuario);
+        /*--------------------------------------------------------------*/
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -141,21 +145,13 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String nom = jsonObject.getString("nom_empleado");
-                        String apat = jsonObject.getString("apat_empleado");
-                        String amat = jsonObject.getString("amat_empleado");
-                        String ndc = jsonObject.getString("ndc_empleado");
-                        String cel = jsonObject.getString("cel_empleado");
                         String em = jsonObject.getString("em_empleado");
 
                         navUsername.setText(nom);
                         navEmail.setText(em);
                         //foto_personal es una URL
                         //Glide.with(getApplicationContext()).load(servidor+foto_personal).into(navImage);
-
-
                     }
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -427,6 +423,50 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void ConsultaRol(String idUsuario) {
+        String url = servidor + "mostrar_usuario.php"; // <-- Cambia esto con tu URL real
+
+        RequestParams params = new RequestParams();
+        params.put("id_empleado", idUsuario);
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, params, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    String json = new String(responseBody);
+                    JSONArray jsonArray = new JSONArray(json);
+
+                    if (jsonArray.length() > 0) {
+                        JSONObject obj = jsonArray.getJSONObject(0);
+                        String rol = obj.getString("nombreRol");
+
+                        // Ocultar/mostrar ítems del menú según el rol
+                        Menu menu = binding.navView.getMenu();
+
+                        if (rol.equalsIgnoreCase("empleado")) {
+                            menu.findItem(R.id.nav_slideshow).setVisible(false);
+                            menu.findItem(R.id.nav_agregar_receta).setVisible(false);
+                            // Agrega otros .setVisible(false) si deseas ocultar más
+                        } else if (rol.equalsIgnoreCase("administrador")) {
+                            menu.findItem(R.id.nav_slideshow).setVisible(true);
+                            menu.findItem(R.id.nav_agregar_receta).setVisible(true);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, "Error al leer datos del rol", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(MainActivity.this, "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -434,6 +474,5 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
 
 }

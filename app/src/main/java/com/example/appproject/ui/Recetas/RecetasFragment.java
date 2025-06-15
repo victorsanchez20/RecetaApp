@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,30 +38,27 @@ import cz.msebera.android.httpclient.Header;
 
 public class RecetasFragment extends Fragment implements View.OnClickListener {
 
-    final String servidor = "http://10.0.2.2/receta002/";
+    final String servidor = "http://10.0.2.2/receta003/";
 
     ListView lista;
-    Button siguiente;
 
+    String idUsuario;
 
+    List<Recetas> recetas = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_recetas, container, false);
 
-        lista = (ListView) rootView.findViewById(R.id.lvLista);
-        siguiente = (Button) rootView.findViewById(R.id.btnSiguiente);
-        siguiente.setOnClickListener(this);
+        lista = rootView.findViewById(R.id.lvLista);
+
+        idUsuario = getActivity().getIntent().getStringExtra("id_usuario");
 
         ConfigurarClickListener();
         ListarRecetas();
 
-
-
-
         return rootView;
-
     }
 
     public class RecetasAdapter extends BaseAdapter {
@@ -98,6 +96,8 @@ public class RecetasFragment extends Fragment implements View.OnClickListener {
             TextView tvLPrecio = convertView.findViewById(R.id.tvLPrecio);
             ImageView ivLImagen = convertView.findViewById(R.id.ivLImagen);
 
+            CheckBox cbAprendida = convertView.findViewById(R.id.cbAprendido);
+
             // Obtener la receta
             Recetas receta = recetasList.get(position);
 
@@ -108,6 +108,14 @@ public class RecetasFragment extends Fragment implements View.OnClickListener {
             tvLCategoria.setText("Categoria: " + receta.categoria);
             tvLDificultad.setText("Dificultad: " + receta.dificultad);
             tvLPrecio.setText("Precio: " + receta.precio);
+
+            // Establecerel estado del checkbox
+            cbAprendida.setChecked(receta.aprendido);
+
+            cbAprendida.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                actualizarEstadoAprendida(receta.idreceta, isChecked);
+            });
+
             // Cargar la imagen usando Picasso - VERSIÓN CORREGIDA
             if (receta.imagen != null && !receta.imagen.isEmpty()) {
                 // Asegúrate de que la URL sea completa si es una ruta relativa
@@ -118,10 +126,10 @@ public class RecetasFragment extends Fragment implements View.OnClickListener {
                         .placeholder(R.mipmap.ic_launcher) // Imagen mientras carga
                         .error(R.mipmap.ic_launcher_round) // Imagen si hay error
                         .into(ivLImagen); // ivLImagen debe ser tu ImageView
-            } else {
+            }
+            else {
                 ivLImagen.setImageResource(R.mipmap.ic_launcher_round);
             }
-
 
 
             return convertView;
@@ -130,10 +138,11 @@ public class RecetasFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        /*
         if (v == siguiente) {
             NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
             navController.navigate(R.id.action_nav_gallery_to_recetasAgregar);
-        }
+        }*/
     }
 
     private void ListarRecetas() {
@@ -142,13 +151,13 @@ public class RecetasFragment extends Fragment implements View.OnClickListener {
 
         // Crear un objeto RequestParams para enviar los parámetros
         RequestParams params = new RequestParams();
+        params.put("id_empleado", idUsuario);
 
         // Crear una instancia de AsyncHttpClient
         AsyncHttpClient client = new AsyncHttpClient();
 
         // Hacer la solicitud GET
         client.get(url, params, new AsyncHttpResponseHandler() {
-
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -157,7 +166,7 @@ public class RecetasFragment extends Fragment implements View.OnClickListener {
 
                 try {
                     JSONArray jsonArray = new JSONArray(response);
-                    List<Recetas> recetas = new ArrayList<>();
+                    recetas.clear();
 
                     for (int i = 0; i < jsonArray.length(); i++)
                     {
@@ -171,6 +180,9 @@ public class RecetasFragment extends Fragment implements View.OnClickListener {
                         double precio = jsonObject.getDouble("precioReceta");
                         String tiempo = jsonObject.getString("tiempoReceta");
                         String fecha = jsonObject.getString("fechaReceta");
+                        // Nuevo
+                        boolean aprendido = jsonObject.getInt("aprendido") == 1;
+
 
                         Recetas receta = new Recetas(id,
                                 dificultad,
@@ -180,15 +192,16 @@ public class RecetasFragment extends Fragment implements View.OnClickListener {
                                 urlVideo,
                                 precio,
                                 tiempo,
-                                fecha);
+                                fecha,
+                                aprendido);
                         recetas.add(receta);
                     }
                     // Crear el adaptador y asignarlo al ListView
                     RecetasAdapter adapter = new RecetasAdapter(getActivity(), recetas);
                     // Asegúrate de que tu ListView tenga el ID correcto
                     lista.setAdapter(adapter);
-                }
 
+                }
                 catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), "Error al obtener recetas", Toast.LENGTH_SHORT).show();
@@ -233,4 +246,49 @@ public class RecetasFragment extends Fragment implements View.OnClickListener {
 
     }
 
+
+    private void actualizarEstadoAprendida(String idReceta, boolean aprendido) {
+        String url = servidor + "actualizar_aprendida.php";
+        RequestParams params = new RequestParams();
+        params.put("idUsuario", idUsuario);
+        params.put("idReceta", idReceta);
+        params.put("aprendido", aprendido ? "1" : "0");
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(url,params, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String response = new String(responseBody);
+                Log.d("Response",response);
+                if (response.isEmpty()) {
+                    Log.e("Response","La respuesta esta vacia");
+                    return;
+                }
+
+                //Toast.makeText(getActivity(), idUsuario + " " + idReceta + " " + aprendido, Toast.LENGTH_SHORT).show();
+
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    String status = jsonResponse.getString("status");
+
+                    if (status.equals("success")) {
+                        // Si la actualización fue exitosa
+                        Toast.makeText(getActivity(), "Estado actualizado", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Si hubo un error
+                        Toast.makeText(getActivity(), "Error: " + jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), "Error al analizar la respuesta", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d("Recetas","Error al actualizar estado");
+            }
+        });
+    }
 }

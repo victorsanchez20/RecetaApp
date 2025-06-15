@@ -17,6 +17,17 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_slideshow" />
         <item
+            android:id="@+id/nav_perfil"
+            android:icon="@drawable/ic_menu_perfil"
+            android:title="@string/menu_perfil" />
+
+        <item
+            android:id="@+id/nav_agregar_receta"
+            android:icon="@drawable/ic_menu_agregar_receta"
+            android:title="@string/menu_agregar_receta" />
+
+
+        <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_logout"
             android:title="@string/menu_logout" />

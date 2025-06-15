@@ -1,8 +1,8 @@
-package com.example.appproject.ui.Recetas;
+package com.example.appproject.ui.AgregarReceta;
+
+
 
 import android.annotation.SuppressLint;
-import android.content.ClipData;
-import android.media.RouteListingPreference;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -33,10 +33,9 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
+public class RecetaAgregar extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-public class RecetasAgregar extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-
-    final String servidor = "http://10.0.2.2/receta002/";
+    final String servidor = "http://10.0.2.2/receta003/";
     int idCat = -1, idDif = -1;
 
     private EditText nom, prep, prec, vid, img;
@@ -49,7 +48,7 @@ public class RecetasAgregar extends Fragment implements View.OnClickListener, Ad
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_recetas_agregar, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_receta_agregar, container, false);
 
         nom = (EditText) rootView.findViewById(R.id.etNombre);
         prep = (EditText) rootView.findViewById(R.id.etPreparacion);
@@ -274,6 +273,5 @@ public class RecetasAgregar extends Fragment implements View.OnClickListener, Ad
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }
