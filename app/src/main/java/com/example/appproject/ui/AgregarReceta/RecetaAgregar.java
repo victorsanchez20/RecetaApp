@@ -105,7 +105,6 @@ public class RecetaAgregar extends Fragment implements View.OnClickListener, Ada
             }
         });
     }
-
     public void ObtenerDificultad() {
         String url = servidor + "dificultad_mostrar.php";
         AsyncHttpClient client = new AsyncHttpClient();

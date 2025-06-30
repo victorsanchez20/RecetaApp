@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         View headerView = binding.navView.getHeaderView(0);
         navUsername = headerView.findViewById(R.id.NomUsu);
         navEmail = headerView.findViewById(R.id.EmailUsu);
-        navImage = headerView.findViewById(R.id.imageView);
+        navImage = headerView.findViewById(R.id.imageUsu);
 
 
         ConsultarUsuario(id_usuario);
@@ -146,11 +146,17 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String nom = jsonObject.getString("nom_empleado");
                         String em = jsonObject.getString("em_empleado");
+                        String foto = jsonObject.getString("foto_empleado");
 
                         navUsername.setText(nom);
                         navEmail.setText(em);
-                        //foto_personal es una URL
-                        //Glide.with(getApplicationContext()).load(servidor+foto_personal).into(navImage);
+
+                        Glide.with(getApplicationContext())
+                                .load(foto)
+                                .placeholder(R.drawable.ic_user) // Imagen por defecto mientras carga
+                                .error(R.drawable.ic_error)      // Imagen si falla la carga
+                                .circleCrop()
+                                .into(navImage);
                     }
 
                 } catch (JSONException e) {

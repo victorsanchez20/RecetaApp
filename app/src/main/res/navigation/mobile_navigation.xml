@@ -9,7 +9,17 @@
         android:id="@+id/nav_home"
         android:name="com.example.appproject.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_cambiarFoto"
+            app:destination="@id/cambiarFoto" />
+        <action
+            android:id="@+id/action_nav_home_to_recetasDetalle"
+            app:destination="@id/recetasDetalle" />
+        <action
+            android:id="@+id/action_nav_home_to_busqueda"
+            app:destination="@id/busqueda" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -43,5 +53,15 @@
         android:name="com.example.appproject.ui.AgregarReceta.RecetaAgregar"
         android:label="RecetaAgregar"
         tools:layout="@layout/fragment_receta_agregar" />
+    <fragment
+        android:id="@+id/cambiarFoto"
+        android:name="com.example.appproject.ui.home.cambiarFoto"
+        android:label="fragment_cambiar_foto"
+        tools:layout="@layout/fragment_cambiar_foto" />
+    <fragment
+        android:id="@+id/busqueda"
+        android:name="com.example.appproject.ui.home.busqueda"
+        android:label="fragment_busqueda"
+        tools:layout="@layout/fragment_busqueda" />
 
 </navigation>

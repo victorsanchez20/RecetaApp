@@ -1,22 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:chart="http://schemas.android.com/apk/res/com.github.mikephil.charting"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.slideshow.SlideshowFragment">
+    android:background="#B4FAF2"
+    android:backgroundTint="#ABEFE7"
+    tools:context=".ui.Perfil.PerfilFragment">
 
-    <TextView
-        android:id="@+id/text_slideshow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    <!-- PieChart (gráfico circular con hueco en el centro) -->
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="379dp"
+        android:layout_height="222dp"
+        android:background="#34D1C1"
+        android:backgroundTint="#34D1C1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.033" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="407dp"
+        android:layout_height="268dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/tvCFaltantes"
+        android:layout_width="105dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="12dp"
+        android:background="#00897B"
+        android:backgroundTint="#34D1C1"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/listView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/faltante"
+        android:layout_width="105dp"
+        android:layout_height="70dp"
+        android:background="#00897B"
+        android:backgroundTint="#34D1C1"
+        android:text="Cantidad de Empleados Faltantes"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/tvCFaltantes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pieChart"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/tvCEmpleados"
+        android:layout_width="106dp"
+        android:layout_height="68dp"
+        android:layout_marginBottom="12dp"
+        android:background="#00897B"
+        android:backgroundTint="#34D1C1"
+        android:textAlignment="center"
+        android:textDirection="anyRtl"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/listView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.095"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/Cantidad"
+        android:layout_width="106dp"
+        android:layout_height="68dp"
+        android:background="#00897B"
+        android:backgroundTint="#34D1C1"
+        android:text="Cantidad de Empleados"
+        android:textAlignment="center"
+        android:textDirection="anyRtl"
+        app:layout_constraintBottom_toTopOf="@+id/tvCEmpleados"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.095"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pieChart"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/Recetas"
+        android:layout_width="109dp"
+        android:layout_height="70dp"
+        android:background="#00897B"
+        android:backgroundTint="#34D1C1"
+        android:text="Cantidad de Recetas"
+        android:textAlignment="center"
+        android:textDirection="anyRtl"
+        app:layout_constraintBottom_toTopOf="@+id/tvCRecetas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pieChart"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/tvCRecetas"
+        android:layout_width="109dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="8dp"
+        android:background="#00897B"
+        android:backgroundTint="#34D1C1"
+        android:textAlignment="center"
+        android:textDirection="anyRtl"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/listView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

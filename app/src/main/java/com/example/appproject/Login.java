@@ -78,7 +78,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 progress.setVisibility(View.GONE);
 
-                String id_usuario = new String(responseBody);
+                String id_usuario = new String(responseBody).trim();
 
                 if (id_usuario.equals("0")) {
                     Toast.makeText(Login.this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();

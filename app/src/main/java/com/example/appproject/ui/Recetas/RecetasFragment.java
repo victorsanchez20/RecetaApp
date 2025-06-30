@@ -180,7 +180,6 @@ public class RecetasFragment extends Fragment implements View.OnClickListener {
                         double precio = jsonObject.getDouble("precioReceta");
                         String tiempo = jsonObject.getString("tiempoReceta");
                         String fecha = jsonObject.getString("fechaReceta");
-                        // Nuevo
                         boolean aprendido = jsonObject.getInt("aprendido") == 1;
 
 

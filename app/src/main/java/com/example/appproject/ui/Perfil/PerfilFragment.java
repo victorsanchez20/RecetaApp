@@ -14,12 +14,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.appproject.R;
 import com.example.appproject.ui.Recetas.Recetas;
+import com.example.appproject.ui.slideshow.Empleados;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -35,7 +39,10 @@ import cz.msebera.android.httpclient.Header;
 
 public class PerfilFragment extends Fragment {
     TextView nombres, rol, correo, telefono, direccion, porce, nacimiento, dni;
+    ImageView foto;
     ProgressBar progreso;
+
+    private ArrayList<Empleados> empleadosList;
 
     String idUsuario;
     List<Recetas> recetas = new ArrayList<>();
@@ -46,6 +53,8 @@ public class PerfilFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
 
+        empleadosList = new ArrayList<>();
+
         nombres = rootView.findViewById(R.id.tvNombreP);
         rol = rootView.findViewById(R.id.tvRolP);
         correo = rootView.findViewById(R.id.tvCorreoP);
@@ -55,6 +64,7 @@ public class PerfilFragment extends Fragment {
         porce = rootView.findViewById(R.id.tvPorcentajeP);
         nacimiento = rootView.findViewById(R.id.tvNacimientoP);
         progreso = rootView.findViewById(R.id.pbProgresoP);
+        foto = rootView.findViewById(R.id.ivFoto);
 
         idUsuario = getActivity().getIntent().getStringExtra("id_usuario");
 
@@ -89,11 +99,19 @@ public class PerfilFragment extends Fragment {
                         direccion.setText(obj.getString("dir_empleado"));
                         nacimiento.setText(obj.getString("fn_empleado"));
                         dni.setText(obj.getString("ndc_empleado"));
+                        String urlFoto = obj.getString("foto_empleado");
+
 
                         // Supón que agregas campo "porcentaje" en el JSON
                         int prog = obj.optInt("porcentaje", 0);
                         porce.setText(prog + "%");
                         progreso.setProgress(prog);
+
+                        Glide.with(getContext())
+                                .load(urlFoto)
+                                .placeholder(R.drawable.ic_user) // Imagen mientras carga
+                                .error(R.drawable.ic_error)      // Imagen si falla la carga
+                                .into(foto);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
