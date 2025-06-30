@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_nav_home_to_busqueda"
             app:destination="@id/busqueda" />
+        <action
+            android:id="@+id/action_nav_home_to_idcard"
+            app:destination="@id/idcard" />
     </fragment>
 
     <fragment
@@ -40,28 +43,37 @@
     <fragment
         android:id="@+id/recetasDetalle"
         android:name="com.example.appproject.ui.Recetas.RecetasDetalle"
-        android:label="fragment_recetas_detalle"
+        android:label="Detalles"
         tools:layout="@layout/fragment_recetas_detalle" />
     <fragment
         android:id="@+id/nav_perfil"
         android:name="com.example.appproject.ui.Perfil.PerfilFragment"
-        android:label="fragment_perfil"
+        android:label="Mi Perfil"
         tools:layout="@layout/fragment_perfil" />
 
     <fragment
         android:id="@+id/nav_agregar_receta"
         android:name="com.example.appproject.ui.AgregarReceta.RecetaAgregar"
-        android:label="RecetaAgregar"
+        android:label="Agregar Recetas"
         tools:layout="@layout/fragment_receta_agregar" />
     <fragment
         android:id="@+id/cambiarFoto"
         android:name="com.example.appproject.ui.home.cambiarFoto"
-        android:label="fragment_cambiar_foto"
+        android:label="Cambiar Foto"
         tools:layout="@layout/fragment_cambiar_foto" />
     <fragment
         android:id="@+id/busqueda"
         android:name="com.example.appproject.ui.home.busqueda"
-        android:label="fragment_busqueda"
-        tools:layout="@layout/fragment_busqueda" />
+        android:label="Buscar"
+        tools:layout="@layout/fragment_busqueda" >
+        <action
+            android:id="@+id/action_busqueda_to_recetasDetalle"
+            app:destination="@id/recetasDetalle" />
+    </fragment>
+    <fragment
+        android:id="@+id/idcard"
+        android:name="com.example.appproject.ui.home.idcard"
+        android:label="fragment_idcard"
+        tools:layout="@layout/fragment_idcard" />
 
 </navigation>

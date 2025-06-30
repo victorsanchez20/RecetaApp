@@ -210,7 +210,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         }
         else if (v == id) {
-
+            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+            navController.navigate(R.id.action_nav_home_to_idcard);
         }
         else if (v == salir) {
             // Cerrar la app completa
